@@ -52,10 +52,12 @@ public class Worker implements Runnable {
 				chain = new Chain(Integer.parseInt(data[0]), Double.parseDouble(data[1]), data[3]);
 			} else {
 				if (chainser.isOutofdate(Double.parseDouble(data[1]))) {
+					chains.remove(chainser);
 					removeList.add(chainser);
 					chain = new Chain(Integer.parseInt(data[0]), Double.parseDouble(data[1]), data[3]);
 				} else {
 					chainser.addTimestamp(Double.parseDouble(data[1]));
+					idToChain.put(Integer.parseInt(data[0]), chainser);
 				}
 			}
 			Iterator<Chain> it = chains.iterator();
