@@ -12,7 +12,7 @@ import java.util.concurrent.BlockingQueue;
 public class Naiv {
 
 	private BufferedReader bf;
-	private static BlockingQueue queue;
+	private static BlockingQueue<String[]> queue;
 	private static int next_id = 0;
 
 	public Naiv(String chemin,BlockingQueue q) throws FileNotFoundException {

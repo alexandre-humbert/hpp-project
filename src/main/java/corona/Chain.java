@@ -92,4 +92,12 @@ public class Chain {
 		}
 		this.score=scoret;
 	}
+	
+	public boolean isOutofdate(Double timestamp) {
+		if(timestamp-this.lasttimestamp> 1209600) {
+			return false;
+		}
+		return true;
+
+	}
 }
