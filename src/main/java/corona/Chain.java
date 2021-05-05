@@ -15,9 +15,9 @@ public class Chain {
 		super();
 		this.rootId = id;
 		this.rootCountry = country;
-		this.listofid = new ArrayList<Integer>();
+		//this.listofid = new ArrayList<Integer>();
 		this.listoftimestamp = new ArrayList<Double>();
-		this.listofid.add(id);
+		//this.listofid.add(id);
 		this.listoftimestamp.add(timestamp);
 		this.score = 10;
 		this.lasttimestamp = timestamp;
@@ -43,13 +43,13 @@ public class Chain {
 		return listofid;
 	}
 
-	public void setListofid(ArrayList<Integer> listofid) {
+	/*public void setListofid(ArrayList<Integer> listofid) {
 		this.listofid = listofid;
 	}
 
 	public ArrayList<Double> getListoftimestamp() {
 		return listoftimestamp;
-	}
+	}*/
 
 	public void setListoftimestamp(ArrayList<Double> listoftimestamp) {
 		this.listoftimestamp = listoftimestamp;
@@ -71,12 +71,11 @@ public class Chain {
 		this.lasttimestamp = lasttimestamp;
 	}
 
-	public void addPerson(int id, double timestamp) {
-		this.listofid.add(id);
+	public void addTimestamp( double timestamp) {
 		this.listoftimestamp.add(timestamp);
 	}
 
-	public void caclulScore() {
+	public int caclulScore() {
 		int scoret = 0;
 		for (int i = this.listoftimestamp.size(); i > 0; i--) {
 			if (lasttimestamp - listoftimestamp.get(i) <= 604800) {
@@ -91,6 +90,7 @@ public class Chain {
 			}
 		}
 		this.score=scoret;
+		return scoret;
 	}
 	
 	public boolean isOutofdate(Double timestamp) {
