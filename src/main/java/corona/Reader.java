@@ -71,7 +71,7 @@ public class Reader {
 			used_data[1] = all_data[min][4];
 			used_data[2] = all_data[min][5];
 			used_data[3] = "France";
-			// System.out.println(used_data[0]+" "+used_data[1]);
+			 System.out.println(used_data[0]+" "+used_data[2]);
 			queue.put(used_data);
 			all_data[min] = naiv[min].getNextLine();
 		}
