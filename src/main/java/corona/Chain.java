@@ -98,6 +98,5 @@ public class Chain {
 			return false;
 		}
 		return true;
-
 	}
 }

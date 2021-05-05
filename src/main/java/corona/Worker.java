@@ -13,7 +13,7 @@ public class Worker implements Runnable {
 
 	private static BlockingQueue<String[]> queue;
 	private static ArrayList<Chain> chains;
-	private Lock lock = new ReentrantLock();
+	private Lock lock = new ReentrantLock(true);
 
 	public void run() {
 		try {
@@ -64,10 +64,14 @@ public class Worker implements Runnable {
 			}
 		}
 	}
-
 }
 /*
  * Lock lock = new ReentrantLock(); try { lock.lock();
  * 
  * // do something } finally { lock.unlock(); }
+ * synchronized (numList) {
+		    numList.add(r.nextInt(50));  
+		    System.out.print("Thread = " + Thread.currentThread().getName());  
+		    System.out.println(numList.toString());  
+			  }
  */
