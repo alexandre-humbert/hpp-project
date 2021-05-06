@@ -40,7 +40,7 @@ public class Worker implements Runnable {
 	}
 
 	private void process(String[] data) {
-		//System.out.println(data[0]);
+		System.out.println(data[0]);
 		Chain chain;
 		int score = 0;
 		int scoreTop3 = 0;

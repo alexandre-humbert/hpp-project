@@ -90,6 +90,7 @@ public class Reader implements Runnable {
 		}
 		all_data[min] = getNextLine(min);
 		while (notNull(all_data)) {
+			used_data = new String[4];
 			minTimestamp = Double.POSITIVE_INFINITY;
 
 			for (int i = 0; i < nbfiles; i++) {
@@ -102,7 +103,7 @@ public class Reader implements Runnable {
 			used_data[1] = all_data[min][4];
 			used_data[2] = all_data[min][5].replace(" ", "");			
 			used_data[3] = "France";
-			 System.out.println(used_data[0]+" "+used_data[1]);
+			 System.out.println(used_data[0]+" "+used_data[2]);
 			try {
 				queue.put(used_data);
 			} catch (InterruptedException e) {
@@ -110,12 +111,7 @@ public class Reader implements Runnable {
 			}
 			all_data[min] = getNextLine(min);
 		}
-		ArrayList<Chain> chains = new  ArrayList<Chain>();
-		ArrayList<Chain> removeList= new  ArrayList<Chain>();
-		Hashtable<Integer, Chain> idToChain = new Hashtable<Integer, Chain>();
-		Worker worker = new Worker(queue,chains,removeList,idToChain);
-		Thread t1 = new Thread(worker);
-		t1.start();
+		
 	}
 	
 	public static void main(String args[]){ 
@@ -125,6 +121,12 @@ public class Reader implements Runnable {
 			rd = new Reader("src\\main\\resources\\20\\",queue);
 			Thread t1 =new Thread(rd);  
 			t1.start();  
+			ArrayList<Chain> chains = new  ArrayList<Chain>();
+			ArrayList<Chain> removeList= new  ArrayList<Chain>();
+			Hashtable<Integer, Chain> idToChain = new Hashtable<Integer, Chain>();
+			Worker worker = new Worker(queue,chains,removeList,idToChain);
+			Thread t2 = new Thread(worker);
+			t2.start();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
