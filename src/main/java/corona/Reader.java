@@ -90,6 +90,7 @@ public class Reader implements Runnable {
 		}
 		all_data[min] = getNextLine(min);
 		while (notNull(all_data)) {
+			used_data = new String[4];
 			minTimestamp = Double.POSITIVE_INFINITY;
 
 			for (int i = 0; i < nbfiles; i++) {
