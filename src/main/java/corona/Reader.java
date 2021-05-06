@@ -103,7 +103,7 @@ public class Reader implements Runnable {
 			used_data[1] = all_data[min][4];
 			used_data[2] = all_data[min][5].replace(" ", "");			
 			used_data[3] = "France";
-			 System.out.println(used_data[0]+" "+used_data[1]);
+			 System.out.println(used_data[0]+" "+used_data[2]);
 			try {
 				queue.put(used_data);
 			} catch (InterruptedException e) {
@@ -119,7 +119,7 @@ public class Reader implements Runnable {
 		try {
 			rd = new Reader("src\\main\\resources\\20\\",queue);
 			Thread t1 =new Thread(rd);  
-			t1.start();
+			t1.start();  
 			ArrayList<Chain> chains = new  ArrayList<Chain>();
 			ArrayList<Chain> removeList= new  ArrayList<Chain>();
 			Hashtable<Integer, Chain> idToChain = new Hashtable<Integer, Chain>();
