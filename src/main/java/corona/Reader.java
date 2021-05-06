@@ -111,12 +111,6 @@ public class Reader implements Runnable {
 			}
 			all_data[min] = getNextLine(min);
 		}
-		ArrayList<Chain> chains = new  ArrayList<Chain>();
-		ArrayList<Chain> removeList= new  ArrayList<Chain>();
-		Hashtable<Integer, Chain> idToChain = new Hashtable<Integer, Chain>();
-		Worker worker = new Worker(queue,chains,removeList,idToChain);
-		Thread t1 = new Thread(worker);
-		t1.start();
 	}
 	
 	public static void main(String args[]){ 
