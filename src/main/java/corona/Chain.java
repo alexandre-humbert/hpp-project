@@ -39,17 +39,17 @@ public class Chain {
 		this.rootCountry = rootCountry;
 	}
 
-	public ArrayList<Integer> getListofid() {
+	/*public ArrayList<Integer> getListofid() {
 		return listofid;
 	}
 
-	/*public void setListofid(ArrayList<Integer> listofid) {
+	public void setListofid(ArrayList<Integer> listofid) {
 		this.listofid = listofid;
-	}
+	}*/
 
 	public ArrayList<Double> getListoftimestamp() {
 		return listoftimestamp;
-	}*/
+	}
 
 	public void setListoftimestamp(ArrayList<Double> listoftimestamp) {
 		this.listoftimestamp = listoftimestamp;
@@ -73,17 +73,18 @@ public class Chain {
 
 	public void addTimestamp( double timestamp) {
 		this.listoftimestamp.add(timestamp);
+		this.lasttimestamp=timestamp;
 	}
 
-	public int caclulScore() {
+	public int caclulScore(double timestamp) {
 		int scoret = 0;
-		for (int i = this.listoftimestamp.size(); i > 0; i--) {
-			if (lasttimestamp - listoftimestamp.get(i) <= 604800) {
-				scoret = +10;
+		for (int i = this.listoftimestamp.size()-1; i >= 0; i--) {
+			if (timestamp - listoftimestamp.get(i) <= 604800) {
+				scoret +=10;
 			} else {
-				if (lasttimestamp - listoftimestamp.get(i) > 604800
-						&& lasttimestamp - listoftimestamp.get(i) <= 1209600) {
-					scoret = +4;
+				if (timestamp - listoftimestamp.get(i) > 604800
+						&& timestamp - listoftimestamp.get(i) <= 1209600) {
+					scoret += 4;
 				} else {
 					break;
 				}
@@ -95,8 +96,17 @@ public class Chain {
 	
 	public boolean isOutofdate(Double timestamp) {
 		if(timestamp-this.lasttimestamp> 1209600) {
+			return true;
+		}else {
 			return false;
 		}
-		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Chain [rootId=" + rootId + ", rootCountry=" + rootCountry + ", listofid=" + listofid
+				+ ", listoftimestamp=" + listoftimestamp + ", score=" + score + ", lasttimestamp=" + lasttimestamp
+				+ "]";
+	}
+	
 }
