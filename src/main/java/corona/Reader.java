@@ -5,24 +5,46 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Scanner;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-public class Reader {
+public class Reader implements Runnable {
 
-	private BufferedReader bf;
+	private String path;
+	private int nbfiles;
+	private BufferedReader[] bf;
+	private String[][] all_data;
 	private static BlockingQueue<String[]> queue;
 	
-	public Reader(String chemin,BlockingQueue q) throws FileNotFoundException {
-		bf = new BufferedReader(new FileReader(chemin));
-		queue=q;
+	public Reader(String chemin, BlockingQueue<String[]> q) throws FileNotFoundException {
+		
+		path  = chemin;
+		//path = "src\\main\\resources\\20\\";
+		//queue = new ArrayBlockingQueue<String[]>(1000);
+		nbfiles=0;
+		File[] files = null;
+        try {
+            File f = new File(path);
+            files = f.listFiles();
+            nbfiles = files.length;
+        }
+        catch (Exception e) {
+            throw new FileNotFoundException("Files not found");
+        }
+		
+		all_data = new String[nbfiles][];
+		bf = new BufferedReader[nbfiles];
+		String[] all_data_init = { "-1" };		
+		for (int i=0; i < nbfiles;i++) {
+			bf[i] = new BufferedReader(new FileReader(path+files[i].getName()));
+			all_data[i] = all_data_init;
+		}
 	}
 
-	public String[] getNextLine() {
+	public String[] getNextLine(int i) {
 		String line;
 		try {
-			line = bf.readLine();
+			line = bf[i].readLine();
 			if (line != null) {
 				String[] data = line.split(",");
 				return data;
@@ -41,33 +63,13 @@ public class Reader {
 		}
 		return false;
 	}
-	public static void main(String[] args) throws FileNotFoundException, InterruptedException {
-		String path  = "src\\main\\resources\\20\\";
-		queue = new ArrayBlockingQueue(1000);
-		int nbfiles=0;
-		File[] files = null;
-        try {
-            File f = new File(path);
-            files = f.listFiles();
-            nbfiles = files.length;
-        }
-        catch (Exception e) {
-            throw new FileNotFoundException("Files not found");
-        }
-		
-		Reader[] naiv  = new Reader[nbfiles];
+	
+	public void run() {
 		String[] used_data= new String[4];
-		String[][] all_data = new String[nbfiles][];
-		String[] all_data_init = { "-1" };		
-		for (int i=0; i < nbfiles;i++) {
-			naiv[i] = new Reader(path+ files[i].getName(), queue);
-			all_data[i] = all_data_init;
-		}
-		
 		double minTimestamp = Double.POSITIVE_INFINITY;
 		int min = 0;
 		for (int i = 0; i < nbfiles; i++) {
-			all_data[i] = naiv[i].getNextLine();
+			all_data[i] = getNextLine(i);
 			if (Double.parseDouble(all_data[i][4]) < minTimestamp) {
 				minTimestamp = Double.parseDouble(all_data[i][4]);
 				min = i;
@@ -77,8 +79,12 @@ public class Reader {
 		used_data[1] = all_data[min][4];
 		used_data[2] = all_data[min][5];
 		used_data[3] = "France";
-		queue.put(used_data);
-		all_data[min] = naiv[min].getNextLine();
+		try {
+			queue.put(used_data);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		all_data[min] = getNextLine(min);
 		while (notNull(all_data)) {
 			minTimestamp = Double.POSITIVE_INFINITY;
 
@@ -93,8 +99,26 @@ public class Reader {
 			used_data[2] = all_data[min][5];
 			used_data[3] = "France";
 			 System.out.println(used_data[0]+" "+used_data[1]);
-			queue.put(used_data);
-			all_data[min] = naiv[min].getNextLine();
+			try {
+				queue.put(used_data);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			all_data[min] = getNextLine(min);
 		}
 	}
+	
+	public static void main(String args[]){ 
+		queue = new ArrayBlockingQueue<String[]>(1000);
+		Reader rd;
+		try {
+			rd = new Reader("src\\main\\resources\\20\\",queue);
+			Thread t1 =new Thread(rd);  
+			t1.start();  
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+	}  
+	
 }
