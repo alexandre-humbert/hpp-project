@@ -11,21 +11,43 @@ import java.util.Scanner;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-public class Reader {
+public class Reader implements Runnable {
 
-	private BufferedReader bf;
+	private String path;
+	private int nbfiles;
+	private BufferedReader[] bf;
+	private String[][] all_data;
 	private static BlockingQueue<String[]> queue;
-	private static int next_id = 0;
-
-	public Reader(String chemin, BlockingQueue q) throws FileNotFoundException {
-		bf = new BufferedReader(new FileReader(chemin));
-		queue = q;
+	
+	public Reader(String chemin, BlockingQueue<String[]> q) throws FileNotFoundException {
+		
+		path  = chemin;
+		//path = "src\\main\\resources\\20\\";
+		//queue = new ArrayBlockingQueue<String[]>(1000);
+		nbfiles=0;
+		File[] files = null;
+        try {
+            File f = new File(path);
+            files = f.listFiles();
+            nbfiles = files.length;
+        }
+        catch (Exception e) {
+            throw new FileNotFoundException("Files not found");
+        }
+		
+		all_data = new String[nbfiles][];
+		bf = new BufferedReader[nbfiles];
+		String[] all_data_init = { "-1" };		
+		for (int i=0; i < nbfiles;i++) {
+			bf[i] = new BufferedReader(new FileReader(path+files[i].getName()));
+			all_data[i] = all_data_init;
+		}
 	}
 
-	public String[] getNextLine() {
+	public String[] getNextLine(int i) {
 		String line;
 		try {
-			line = bf.readLine();
+			line = bf[i].readLine();
 			if (line != null) {
 				String[] data = line.split(",");
 				return data;
@@ -38,17 +60,20 @@ public class Reader {
 		}
 	}
 
-	public static void main(String[] args) throws FileNotFoundException, InterruptedException {
-		String[][] all_data = { { "-1" }, { "-1" }, { "-1" } };
-		String[] used_data = new String[4];
-		queue = new ArrayBlockingQueue(5000);
-		Reader[] naiv = { new Reader("src\\main\\resources\\5000\\France.csv", queue),
-				new Reader("src\\main\\resources\\5000\\Italy.csv", queue),
-				new Reader("src\\main\\resources\\5000\\Spain.csv", queue) };
+
+	public static boolean notNull(String[][] array) {
+		for (String[] element : array) {
+			if(element!=null) return true; break;
+		}
+		return false;
+	}
+	
+	public void run() {
+		String[] used_data= new String[4];
 		double minTimestamp = Double.POSITIVE_INFINITY;
 		int min = 0;
-		for (int i = 0; i < 3; i++) {
-			all_data[i] = naiv[i].getNextLine();
+		for (int i = 0; i < nbfiles; i++) {
+			all_data[i] = getNextLine(i);
 			if (Double.parseDouble(all_data[i][4]) < minTimestamp) {
 				minTimestamp = Double.parseDouble(all_data[i][4]);
 				min = i;
@@ -58,13 +83,16 @@ public class Reader {
 		used_data[1] = all_data[min][4].replace(" ", "");	
 		used_data[2] = all_data[min][5].replace(" ", "");	
 		used_data[3] = "France";
-		queue.put(used_data);
-		all_data[min] = naiv[min].getNextLine();
-		while (all_data[0] != null || all_data[1] != null || all_data[2] != null) {
-			used_data = new String[4];
+		try {
+			queue.put(used_data);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		all_data[min] = getNextLine(min);
+		while (notNull(all_data)) {
 			minTimestamp = Double.POSITIVE_INFINITY;
 
-			for (int i = 0; i < 3; i++) {
+			for (int i = 0; i < nbfiles; i++) {
 				if (all_data[i] != null && Double.parseDouble(all_data[i][4]) < minTimestamp) {
 					minTimestamp = Double.parseDouble(all_data[i][4]);
 					min = i;
@@ -74,9 +102,13 @@ public class Reader {
 			used_data[1] = all_data[min][4];
 			used_data[2] = all_data[min][5].replace(" ", "");			
 			used_data[3] = "France";
-			System.out.println(used_data[2]);
-			queue.put(used_data);
-			all_data[min] = naiv[min].getNextLine();
+			 System.out.println(used_data[0]+" "+used_data[1]);
+			try {
+				queue.put(used_data);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			all_data[min] = getNextLine(min);
 		}
 		ArrayList<Chain> chains = new  ArrayList<Chain>();
 		ArrayList<Chain> removeList= new  ArrayList<Chain>();
@@ -85,4 +117,18 @@ public class Reader {
 		Thread t1 = new Thread(worker);
 		t1.start();
 	}
+	
+	public static void main(String args[]){ 
+		queue = new ArrayBlockingQueue<String[]>(1000);
+		Reader rd;
+		try {
+			rd = new Reader("src\\main\\resources\\20\\",queue);
+			Thread t1 =new Thread(rd);  
+			t1.start();  
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+	}  
+	
 }
