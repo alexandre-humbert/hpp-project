@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Scanner;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -57,6 +60,7 @@ public class Reader implements Runnable {
 		}
 	}
 
+
 	public static boolean notNull(String[][] array) {
 		for (String[] element : array) {
 			if(element!=null) return true; break;
@@ -76,8 +80,8 @@ public class Reader implements Runnable {
 			}
 		}
 		used_data[0] = all_data[min][0];
-		used_data[1] = all_data[min][4];
-		used_data[2] = all_data[min][5];
+		used_data[1] = all_data[min][4].replace(" ", "");	
+		used_data[2] = all_data[min][5].replace(" ", "");	
 		used_data[3] = "France";
 		try {
 			queue.put(used_data);
@@ -96,7 +100,7 @@ public class Reader implements Runnable {
 			}
 			used_data[0] = all_data[min][0];
 			used_data[1] = all_data[min][4];
-			used_data[2] = all_data[min][5];
+			used_data[2] = all_data[min][5].replace(" ", "");			
 			used_data[3] = "France";
 			 System.out.println(used_data[0]+" "+used_data[1]);
 			try {
@@ -106,6 +110,12 @@ public class Reader implements Runnable {
 			}
 			all_data[min] = getNextLine(min);
 		}
+		ArrayList<Chain> chains = new  ArrayList<Chain>();
+		ArrayList<Chain> removeList= new  ArrayList<Chain>();
+		Hashtable<Integer, Chain> idToChain = new Hashtable<Integer, Chain>();
+		Worker worker = new Worker(queue,chains,removeList,idToChain);
+		Thread t1 = new Thread(worker);
+		t1.start();
 	}
 	
 	public static void main(String args[]){ 
