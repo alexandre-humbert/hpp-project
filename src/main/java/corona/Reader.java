@@ -125,7 +125,13 @@ public class Reader implements Runnable {
 		try {
 			rd = new Reader("src\\main\\resources\\20\\",queue);
 			Thread t1 =new Thread(rd);  
-			t1.start();  
+			t1.start();
+			ArrayList<Chain> chains = new  ArrayList<Chain>();
+			ArrayList<Chain> removeList= new  ArrayList<Chain>();
+			Hashtable<Integer, Chain> idToChain = new Hashtable<Integer, Chain>();
+			Worker worker = new Worker(queue,chains,removeList,idToChain);
+			Thread t2 = new Thread(worker);
+			t2.start();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
