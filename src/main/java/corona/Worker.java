@@ -88,8 +88,6 @@ public class Worker implements Runnable {
 						//System.out.println(Double.parseDouble(data[1])-chain1.getLasttimestamp());
 						removeList.add(chain1);
 						chains.remove(chain1);
-						chain1 = new Chain(Integer.parseInt(data[0]), Double.parseDouble(data[1]), data[3]);
-						chains.add(chain1);
 					} else {
 						//System.out.println(Double.parseDouble(data[1])-chain1.getLasttimestamp());
 						//System.out.println(chain1.getListoftimestamp().size());
@@ -100,11 +98,11 @@ public class Worker implements Runnable {
 						}
 					}
 				} finally {
-					
 					lock.unlock();
 				}
+				System.out.println(top);
 			}
-			System.out.println(top.toString());
+			
 		}
 	}
 }
