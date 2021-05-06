@@ -111,7 +111,6 @@ public class Reader implements Runnable {
 			}
 			all_data[min] = getNextLine(min);
 		}
-		
 	}
 	
 	public static void main(String args[]){ 
