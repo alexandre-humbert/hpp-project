@@ -16,14 +16,14 @@ import org.apache.commons.io.FilenameUtils;
 
 public class Reader implements Runnable {
 
+	private static double sizeLimit=300000;
+	
 	private String path;
 	private int nbfiles;
 	private BufferedReader[] bf;
 	private String[][] all_data;
 	private String[] countries;
 	private static BlockingQueue<String[]> queue;
-	private  ArrayList<Chain> chains;
-	private static BlockingQueue<ArrayList<Chain>> queue2;
 	private static int w=0;
 	
 	public Reader(String chemin, BlockingQueue<String[]> q) throws FileNotFoundException {
@@ -95,9 +95,7 @@ public class Reader implements Runnable {
 		used_data[2] = all_data[min][5].replace(" ", "");	
 		used_data[3] = countries[min];
 		try {
-			//w++;
 			queue.put(used_data);
-			//System.out.println(Arrays.toString(used_data));
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -111,6 +109,10 @@ public class Reader implements Runnable {
 					minTimestamp = Double.parseDouble(all_data[i][4]);
 					min = i;
 				}
+			}
+			
+			if(Double.parseDouble( all_data[min][0])>sizeLimit) {
+				break;
 			}
 			used_data[0] = all_data[min][0];
 			used_data[1] = all_data[min][4];

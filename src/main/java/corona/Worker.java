@@ -16,7 +16,6 @@ import org.apache.commons.lang3.math.NumberUtils;
 public class Worker implements Runnable {
 
 	private static BlockingQueue<String[]> queue;
-	private static BlockingQueue<ArrayList<Chain>> queue2;
 	private static BlockingQueue<String> queuewriter;
 	private  ArrayList<Chain> chains;
 	private  static ArrayList<Chain> removeList;
@@ -25,22 +24,18 @@ public class Worker implements Runnable {
 	private Top3 top ;
 	private double lasttimestamp;
 	private  Hashtable<Integer, Chain> idToChain;
-	private  Hashtable<Chain,Integer> ChainToid;
-	private Lock lock = new ReentrantLock(true);
 	private static int w=0;
 
 	public void run() {
 		try {
 			long startTime = System.currentTimeMillis();
 			while (true) {
-				//w++;
 				String[] data = queue.take();
-				//System.out.println(data[0]);
-				if(Integer.parseInt(data[0])==-1||Integer.parseInt(data[0])>300000){//) {
-					 long endTime = System.currentTimeMillis();
+				if(Integer.parseInt(data[0])==-1){//||Integer.parseInt(data[0])>500000){//) {
+					 /*long endTime = System.currentTimeMillis();
 					 long seconds = (endTime - startTime) / 1000;	
 					  System.out.println(seconds);
-					  System.out.println(w);
+					  System.out.println(w);*/
 					  queuewriter.put("-1");
 					break;
 				}
@@ -51,14 +46,12 @@ public class Worker implements Runnable {
 		}
 	}
 
-	public Worker(BlockingQueue q,BlockingQueue q2, BlockingQueue q3,ArrayList<Chain> chains,ArrayList<Chain> removeList,Hashtable<Integer, Chain> idToChain) {
+	public Worker(BlockingQueue q, BlockingQueue q2,ArrayList<Chain> chains,ArrayList<Chain> removeList,Hashtable<Integer, Chain> idToChain) {
 		this.queue = q;
-		this.queue2 = q2;
-		this.queuewriter = q3;
+		this.queuewriter = q2;
 		this.chains = chains;
 		this.removeList=removeList;
 		this.idToChain=idToChain;
-		this.ChainToid=new Hashtable<Chain,Integer>();
 	}
 
 	private void process(String[] data) throws InterruptedException {
@@ -67,13 +60,12 @@ public class Worker implements Runnable {
 		scoreTop3 = 0;
 		top = new Top3();
 		lasttimestamp=Double.parseDouble(data[1]);
-		//System.out.println(lasttimestamp);
 		if(Integer.parseInt(data[0])%10000==0) {
 			for(int i=0;i<removeList.size();i++) {
 				idToChain.remove(removeList.get(i).getRootId());
 				chains.remove(removeList.get(i));
 				removeList.clear();
-			}
+			}			
 		}
 		if (chains.isEmpty()) {							
 				chain = new Chain(Integer.parseInt(data[0]), lasttimestamp, data[3]);
@@ -99,7 +91,6 @@ public class Worker implements Runnable {
 				}				
 			}	
 		}
-		//queue2.put(new ArrayList<Chain>(chains));
 			for(int i = 0;i<chains.size();i++ ) {
 				Chain chain1=chains.get(i);
 						if (chain1.isOutofdate(lasttimestamp)) {	

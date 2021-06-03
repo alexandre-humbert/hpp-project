@@ -14,12 +14,8 @@ public class Example {
 
 	@Test
 	public void test() {
-		BlockingQueue<String[]> queue;
-		BlockingQueue<ArrayList<Chain>> queue2;
-		BlockingQueue<String> queuewriter;
-		queue = new ArrayBlockingQueue<String[]>(100);
-		queuewriter = new ArrayBlockingQueue<String>(100);
-		queue2 = new ArrayBlockingQueue<ArrayList<Chain>>(100);
+		BlockingQueue<String[]> queue= new ArrayBlockingQueue<String[]>(100);
+		BlockingQueue<String> queuewriter= new ArrayBlockingQueue<String>(100);
 		Reader rd;
 		try {
 			rd = new Reader("src\\test\\resources\\Example\\",queue);
@@ -28,7 +24,7 @@ public class Example {
 			ArrayList<Chain> chains = new  ArrayList<Chain>();
 			ArrayList<Chain> removeList= new  ArrayList<Chain>();
 			Hashtable<Integer, Chain> idToChain = new Hashtable<Integer, Chain>();
-			Worker worker = new Worker(queue,queue2,queuewriter,chains,removeList,idToChain);
+			Worker worker = new Worker(queue,queuewriter,chains,removeList,idToChain);
 			Thread t2 = new Thread(worker, "t2");
 			t2.start();
 
