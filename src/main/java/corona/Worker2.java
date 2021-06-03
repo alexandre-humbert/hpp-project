@@ -75,7 +75,7 @@ public class Worker2 implements Runnable {
 						score = chain2.caclulScore(chains2.get(chains2.size() - 1).getLasttimestamp());						
 						//System.out.println(score);
 						if (score > scoreTop3) {
-							scoreTop3 = top2.addTop(chain2.getRootId(), chain2.getRootCountry(), score);
+							//scoreTop3 = top2.addTop(chain2.getRootId(), chain2.getRootCountry(), score);
 						}
 						}
 					}

@@ -103,6 +103,7 @@ public class Reader implements Runnable {
 					min = i;
 				}
 			}
+			//System.out.println(all_data[min][0]);
 			used_data[0] = all_data[min][0];
 			used_data[1] = all_data[min][4];
 			used_data[2] = all_data[min][5].replace(" ", "");			

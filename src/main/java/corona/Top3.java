@@ -5,37 +5,46 @@ public class Top3 {
 	private String top1_country_origin=null;
 	private int top1_chain_root_person_id=0;
 	private int top1_chain_score=0;
+	private double top1_rootimestamp=0;
 	private String top2_country_origin=null;
 	private int top2_chain_root_person_id=0;
 	private int top2_chain_score=0;
+	private double top2_rootimestamp=0;
 	private String top3_country_origin=null;
 	private int top3_chain_root_person_id=0;
 	private int top3_chain_score=0;
+	private double top3_rootimestamp=0;
 	
-	public int addTop(int rootid,String country,int score) {
-		if(score>top1_chain_score) {
+	public int addTop(int rootid,String country,int score,double  rootimestamp) {
+		if(score>top1_chain_score||(score==top1_chain_score&&rootimestamp<top1_rootimestamp)) {
 			this.top3_country_origin=top2_country_origin;
 			this.top3_chain_root_person_id=top2_chain_root_person_id;
 			this.top3_chain_score=top2_chain_score;
+			this.top3_rootimestamp=top2_rootimestamp;
 			this.top2_country_origin=top1_country_origin;
 			this.top2_chain_root_person_id=top1_chain_root_person_id;
 			this.top2_chain_score=top1_chain_score;
+			this.top2_rootimestamp=top1_rootimestamp;
 			this.top1_country_origin=country;
 			this.top1_chain_root_person_id=rootid;
 			this.top1_chain_score=score;
+			this.top1_rootimestamp=rootimestamp;
 		}else {
-			if(score>top2_chain_score) {
+			if(score>top2_chain_score||(score==top2_chain_score&&rootimestamp<top2_rootimestamp)) {
 				this.top3_country_origin=top2_country_origin;
 				this.top3_chain_root_person_id=top2_chain_root_person_id;
 				this.top3_chain_score=top2_chain_score;
+				this.top3_rootimestamp=top2_rootimestamp;
 				this.top2_country_origin=country;
 				this.top2_chain_root_person_id=rootid;
 				this.top2_chain_score=score;
+				this.top2_rootimestamp=rootimestamp;
 			}else {
-				if(score>top3_chain_score) {
+				if(score>top3_chain_score||(score==top3_chain_score&&rootimestamp<top3_rootimestamp)) {
 					this.top3_country_origin=country;
 					this.top3_chain_root_person_id=rootid;
 					this.top3_chain_score=score;
+					this.top3_rootimestamp=rootimestamp;
 				}
 			}
 		}
