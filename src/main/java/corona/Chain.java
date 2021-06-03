@@ -6,6 +6,7 @@ public class Chain {
 
 	private int rootId;
 	private String rootCountry;
+	private double rootTimestamp;
 	private ArrayList<Integer> listofid;
 	private ArrayList<Double> listoftimestamp;
 	private int score;
@@ -24,6 +25,7 @@ public class Chain {
 		this.score = 10;
 		this.lasttimestamp = timestamp;
 		this.timestampsize=1;
+		this.rootTimestamp=timestamp;
 	}
 
 	public int getRootId() {
@@ -83,7 +85,13 @@ public class Chain {
 	public void setLasttimestamp(double lasttimestamp) {
 		this.lasttimestamp = lasttimestamp;
 	}
+	public double getRootTimestamp() {
+		return rootTimestamp;
+	}
 
+	public void setRootTimestamp(double rootTimestamp) {
+		this.rootTimestamp = rootTimestamp;
+	}
 	public void addTimestamp( double timestamp) {
 		this.listoftimestamp.add(timestamp);
 		this.lasttimestamp=timestamp;
@@ -96,7 +104,7 @@ public class Chain {
 	
 	public int caclulScore(double timestamp) {
 		int scoret = 0;
-		for (int i = this.listoftimestamp.size()-1; i > this.listoftimestamp.size()-timestampsize; i--) {
+		for (int i = this.listoftimestamp.size()-1; i >= this.listoftimestamp.size()-timestampsize; i--) {
 			if (timestamp - listoftimestamp.get(i) <= 604800) {
 				scoret +=10;
 			} else {

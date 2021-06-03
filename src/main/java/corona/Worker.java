@@ -34,7 +34,7 @@ public class Worker implements Runnable {
 			while (true) {
 				//w++;
 				String[] data = queue.take();
-				if(Integer.parseInt(data[0])==-1) {//||Integer.parseInt(data[0])>1000000){//) {
+				if(Integer.parseInt(data[0])==-1||Integer.parseInt(data[0])>300000){//) {
 					 long endTime = System.currentTimeMillis();
 					 long seconds = (endTime - startTime) / 1000;	
 					  System.out.println(seconds);
@@ -63,9 +63,11 @@ public class Worker implements Runnable {
 		scoreTop3 = 0;
 		top = new Top3();
 		lasttimestamp=Double.parseDouble(data[1]);
+		//System.out.println(lasttimestamp);
 		if(Integer.parseInt(data[0])%10000==0) {
 			for(int i=0;i<removeList.size();i++) {
 				idToChain.remove(removeList.get(i).getRootId());
+				chains.remove(removeList.get(i));
 				removeList.clear();
 			}
 		}
@@ -83,9 +85,10 @@ public class Worker implements Runnable {
 				chains.add(chain);
 				idToChain.put(Integer.parseInt(data[0]), chain);
 			} else {		
-				if (chainser.isOutofdate(Double.parseDouble(data[1]))) {		
+				if (chainser.isOutofdate(Double.parseDouble(data[1]))) {
 					removeList.add(chainser);
 					chain = new Chain(Integer.parseInt(data[0]), lasttimestamp, data[3]);
+					chains.add(chain);
 				} else {
 					chainser.addTimestamp(lasttimestamp);
 					idToChain.put(Integer.parseInt(data[0]), chainser);
@@ -93,17 +96,18 @@ public class Worker implements Runnable {
 			}	
 		}
 		//queue2.put(new ArrayList<Chain>(chains));
-
 			for(int i = 0;i<chains.size();i++ ) {
 				Chain chain1=chains.get(i);
 						if (chain1.isOutofdate(lasttimestamp)) {	
 							removeList.add(chain1);
-							chains.remove(chain1);
+							
 						} else {
-							if(scoreTop3<=chain1.getTimestampsize()*10) {								
-								score = chain1.caclulScore(lasttimestamp);						
-								if (score > scoreTop3) {
-									scoreTop3 = top.addTop(chain1.getRootId(), chain1.getRootCountry(), score);
+							if(scoreTop3<=chain1.getTimestampsize()*10) {
+								
+								score = chain1.caclulScore(lasttimestamp);
+								
+								if (score >= scoreTop3) {
+									scoreTop3 = top.addTop(chain1.getRootId(), chain1.getRootCountry(), score,chain1.getRootTimestamp());
 								}
 							}
 					}
