@@ -1,0 +1,7 @@
+[0, 1584540000.0, unknown, France]
+[2,  1584558000.0, 0, Italy]
+[1,  1584712800.0, unknown, France]
+[3,  1585324800.0, unknown, Italy]
+[5,  1587052800.0, 3, Spain]
+[4,  1587312000.0, 3, Italy]
+[-1, null, null, null]

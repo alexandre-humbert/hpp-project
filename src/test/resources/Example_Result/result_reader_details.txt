@@ -1,0 +1,6 @@
+0, "Cerise", "Dupond", 21-01-1963 00:00:00, 1584540000.0, unknown, "reason" (FR)
+2, "Valentina", "Rossi", 21-01-1963 00:00:00, 1584558000.0, 0, "reason" (IT)
+1, "Hervé", "Renoir", 11-03-1971 00:00:00, 1584712800.0, unknown, "reason" (FR)
+3, "Marco", "Guili", 06-01-1956 00:00:00, 1585324800.0, unknown, "reason" (IT)
+5, "Ricardo", "Rodriguez", 03-10-1964 00:00:00, 1587052800.0, 3, "reason" (ES)
+4, "Stella", "Capelli", 21-01-1949 00:00:00, 1587312000.0, 3, "reason" (IT)
