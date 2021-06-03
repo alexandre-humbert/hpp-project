@@ -34,6 +34,7 @@ public class Worker implements Runnable {
 			while (true) {
 				//w++;
 				String[] data = queue.take();
+				//System.out.println(data[0]);
 				if(Integer.parseInt(data[0])==-1||Integer.parseInt(data[0])>300000){//) {
 					 long endTime = System.currentTimeMillis();
 					 long seconds = (endTime - startTime) / 1000;	
@@ -112,7 +113,7 @@ public class Worker implements Runnable {
 							}
 					}
 			}
-			System.out.println(top);	
+			//System.out.println(top);	
 	}
 }
 

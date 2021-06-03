@@ -72,7 +72,9 @@ public class Reader implements Runnable {
 
 	public static boolean notNull(String[][] array) {
 		for (String[] element : array) {
-			if(element!=null) return true; break;
+			if(element!=null) {
+				return true; 
+			}
 		}
 		return false;
 	}
@@ -127,8 +129,13 @@ public class Reader implements Runnable {
 			all_data[min] = getNextLine(min);
 		}
 		//System.out.println(w);
+		used_data = new String[4];
 		try {
+			
 			used_data[0] = "-1";
+			used_data[1] = "-1";
+			used_data[2] = "-1";			
+			used_data[3]="-1";
 			queue.put(used_data);
 			System.out.println(Arrays.toString(used_data));
 
