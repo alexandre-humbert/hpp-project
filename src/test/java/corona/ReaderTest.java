@@ -27,12 +27,13 @@ public class ReaderTest {
 			Thread ReaderThread =new Thread(rd);  
 			ReaderThread.start();
 			ReaderThread.join();
-			//assertEquals(ReaderQueue.size(),20);
 			System.out.println("Size " + ReaderQueue.size());
 			int size = ReaderQueue.size();
 			for (int i=0; i<size; i++) {
 				line = bf.readLine();
 				value = Arrays.toString(ReaderQueue.take());
+				System.out.println("Expected : " + line);
+				System.out.println("Got      : " + value);
 				if (line.equals(value) != true) {
 					fail("Does not match");
 				}

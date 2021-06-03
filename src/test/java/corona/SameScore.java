@@ -12,7 +12,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-public class Example {
+public class SameScore {
 
 	@Test
 	public void test() throws InterruptedException, IOException {
@@ -25,10 +25,10 @@ public class Example {
 		queuewriter = new ArrayBlockingQueue<String>(100);
 		Reader rd;
 		try {
-			bf = new BufferedReader(new FileReader("src\\test\\resources\\Example_result\\result_top3.txt"));
-			rd = new Reader("src\\test\\resources\\Example\\",queueworker);
+			bf = new BufferedReader(new FileReader("src\\test\\resources\\SameScore_result\\result_top3.txt"));
+			rd = new Reader("src\\test\\resources\\SameScore\\",queueworker);
 			Thread t1 =new Thread(rd);  
-			t1.start();
+			t1.start();  
 			Worker worker = new Worker(queueworker,queuewriter);
 			Thread t2 = new Thread(worker, "t2");
 			t2.start();
