@@ -9,13 +9,13 @@ import java.util.Iterator;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-
+import static corona.Main_corona.DEBUG;
+import static corona.Main_corona.BENCHMARK;
 
 /*
- * La classe Worker est le thread qui va prende en entrée les personnes
+ * La classe Worker est le thread qui va prendre en entrée les personnes
  * entrées par le Reader le permettre  de créer et mettre à jour les chaînes 
  * puis de calculer leur score et de l'envoyer au Writer
  */
@@ -40,10 +40,12 @@ public class Worker implements Runnable {
 			while (true) {
 				String[] data = queue.take();
 				if(Integer.parseInt(data[0])==-1){//controle du message d'interuption
-					 /*long endTime = System.currentTimeMillis();
-					  long seconds = (endTime - startTime) / 1000;	
-					  System.out.println(seconds);
-					  System.out.println(w);*/
+					 long endTime = System.currentTimeMillis();
+					  double seconds = (endTime - startTime) / 1000.0;
+					  if (BENCHMARK) {
+					  System.out.println("Worker : execution timer " + seconds);
+					  System.out.println("W " + w);
+					  }
 					  queuewriter.put("-1");//interruption du writer
 					break;
 				}
@@ -54,7 +56,7 @@ public class Worker implements Runnable {
 		}
 	}
 
-	public Worker(BlockingQueue q, BlockingQueue q2) {
+	public Worker(BlockingQueue<String[]> q, BlockingQueue<String> q2) {
 		this.queue = q;
 		this.queuewriter = q2;
 		this.chains = new  ArrayList<Chain>();
@@ -116,7 +118,9 @@ public class Worker implements Runnable {
 					}
 			}
 			queuewriter.put(top.toString());
-			//System.out.println(top);	
+			if (DEBUG) {
+			  System.out.println(top);
+			}
 	}
 }
 

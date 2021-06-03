@@ -13,6 +13,8 @@ import java.util.Scanner;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import org.apache.commons.io.FilenameUtils;
+import static corona.Main_corona.DEBUG;
+import static corona.Main_corona.BENCHMARK;
 /*
  * La classe Reader va lire les csv les parser 
  * puis les envoyer dans une queue vers un worker
@@ -32,7 +34,6 @@ public class Reader implements Runnable {
 	public Reader(String chemin, BlockingQueue<String[]> q) throws FileNotFoundException {
 		
 		path  = chemin;
-		//path = "src\\main\\resources\\20\\";
 		queue = q;
 		nbfiles=0;
 		File[] files = null;
@@ -116,7 +117,7 @@ public class Reader implements Runnable {
 				}
 			}
 			
-			if(Double.parseDouble( all_data[min][0])>sizeLimit) {// Limte de donnée à traiter
+			if(Double.parseDouble( all_data[min][0])>sizeLimit) {// Limite de donnée à traiter
 				break;
 			}
 			used_data[0] = all_data[min][0];
@@ -141,7 +142,6 @@ public class Reader implements Runnable {
 			queue.put(used_data);
 
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
