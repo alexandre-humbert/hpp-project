@@ -108,12 +108,15 @@ public class Top3 {
 
 	@Override
 	public String toString() {
-		return "Top3 [top1_country_origin=" + top1_country_origin + ", top1_chain_root_person_id="
-				+ top1_chain_root_person_id + ", top1_chain_score=" + top1_chain_score + ", top2_country_origin="
-				+ top2_country_origin + ", top2_chain_root_person_id=" + top2_chain_root_person_id
-				+ ", top2_chain_score=" + top2_chain_score + ", top3_country_origin=" + top3_country_origin
-				+ ", top3_chain_root_person_id=" + top3_chain_root_person_id + ", top3_chain_score=" + top3_chain_score
-				+ "]";
+		String output = "[[" + top1_country_origin + ", root_id="
+				+ top1_chain_root_person_id + ", score=" + top1_chain_score + "]";
+		if (top2_country_origin != null) {
+			output += "[" + top2_country_origin + ", root_id=" + top2_chain_root_person_id + ", score=" + top2_chain_score +"]";
+		}
+		if (top3_country_origin != null) {
+			output += "[" + top3_country_origin + ", root_id=" + top3_chain_root_person_id + ", score=" + top3_chain_score +"]";
+		}
+		return output + "]";
 	}
 	
 
