@@ -17,7 +17,7 @@ public class Main_corona {
 		Reader rd;
 		long startTime = System.currentTimeMillis();
 		try {
-			rd = new Reader("src\\main\\resources\\1000000\\",queue);
+			rd = new Reader("src\\main\\resources\\20\\",queue);
 			Thread t1 =new Thread(rd);  
 			t1.start();  
 			ArrayList<Chain> chains = new  ArrayList<Chain>();

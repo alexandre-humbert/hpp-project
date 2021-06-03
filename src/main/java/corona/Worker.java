@@ -41,6 +41,7 @@ public class Worker implements Runnable {
 					 long seconds = (endTime - startTime) / 1000;	
 					  System.out.println(seconds);
 					  System.out.println(w);
+					  queuewriter.put("-1");
 					break;
 				}
 				process(data);
@@ -105,9 +106,8 @@ public class Worker implements Runnable {
 							removeList.add(chain1);							
 						} else {
 							if(scoreTop3<=chain1.getTimestampsize()*10) {
-								
-								score = chain1.caclulScore(lasttimestamp);
-								
+								chain1.resetCalculCompter();
+								score = chain1.caclulScore(lasttimestamp);								
 								if (score >= scoreTop3) {
 									scoreTop3 = top.addTop(chain1.getRootId(), chain1.getRootCountry(), score,chain1.getRootTimestamp());
 								}
