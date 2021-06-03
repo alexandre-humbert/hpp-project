@@ -18,6 +18,9 @@ public class Reader implements Runnable {
 	private BufferedReader[] bf;
 	private String[][] all_data;
 	private static BlockingQueue<String[]> queue;
+	private  ArrayList<Chain> chains;
+	private static BlockingQueue<ArrayList<Chain>> queue2;
+	private static int w=0;
 	
 	public Reader(String chemin, BlockingQueue<String[]> q) throws FileNotFoundException {
 		
@@ -84,6 +87,7 @@ public class Reader implements Runnable {
 		used_data[2] = all_data[min][5].replace(" ", "");	
 		used_data[3] = "France";
 		try {
+			//w++;
 			queue.put(used_data);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -103,32 +107,59 @@ public class Reader implements Runnable {
 			used_data[1] = all_data[min][4];
 			used_data[2] = all_data[min][5].replace(" ", "");			
 			used_data[3] = "France";
-			 System.out.println(used_data[0]+" "+used_data[2]);
+			 //System.out.println(used_data[0]+" "+used_data[2]);
 			try {
-				queue.put(used_data);
+					//w++;
+					//System.out.println(w);
+					queue.put(used_data);	
 			} catch (InterruptedException e) {
 				e.printStackTrace();
+				
 			}
 			all_data[min] = getNextLine(min);
 		}
+		//System.out.println(w);
+		try {
+			used_data[0] = "-1";
+			queue.put(used_data);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	public static void main(String args[]){ 
-		queue = new ArrayBlockingQueue<String[]>(1000);
+	public static void main(String args[]) throws InterruptedException{ 
+		queue = new ArrayBlockingQueue<String[]>(100);
+		queue2 = new ArrayBlockingQueue<ArrayList<Chain>>(100);
 		Reader rd;
+		long startTime = System.currentTimeMillis();
 		try {
-			rd = new Reader("src\\main\\resources\\20\\",queue);
+			rd = new Reader("src\\main\\resources\\1000000\\",queue);
 			Thread t1 =new Thread(rd);  
 			t1.start();  
 			ArrayList<Chain> chains = new  ArrayList<Chain>();
 			ArrayList<Chain> removeList= new  ArrayList<Chain>();
 			Hashtable<Integer, Chain> idToChain = new Hashtable<Integer, Chain>();
-			Worker worker = new Worker(queue,chains,removeList,idToChain);
-			Thread t2 = new Thread(worker);
+			Worker worker = new Worker(queue,queue2,chains,removeList,idToChain);
+			Thread t2 = new Thread(worker, "t2");
+			//Worker2 worker2 = new Worker2(queue2,chains,removeList,idToChain);
+			//Thread t3 = new Thread(worker2, "t3");
+			//Thread t4= new Thread(worker, "t4");			
+			//Thread t4= new Thread(worker, "t4");	
+			//Thread t5= new Thread(worker, "t5");	
 			t2.start();
+			//t3.sleep(1000);
+			//t3.start();
+			//t4.start();	
+			//t5.start();
+
+			 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		 long endTime = System.currentTimeMillis();
+		  long seconds = (endTime - startTime) / 1000;	
+		  System.out.println("fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
 	}  
 	

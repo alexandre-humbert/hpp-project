@@ -10,6 +10,8 @@ public class Chain {
 	private ArrayList<Double> listoftimestamp;
 	private int score;
 	private double lasttimestamp;
+	private int timestampsize;
+	private int calculCompter=0;
 
 	public Chain(int id, double timestamp, String country) {
 		super();
@@ -21,6 +23,7 @@ public class Chain {
 		this.listoftimestamp.add(timestamp);
 		this.score = 10;
 		this.lasttimestamp = timestamp;
+		this.timestampsize=1;
 	}
 
 	public int getRootId() {
@@ -63,6 +66,16 @@ public class Chain {
 		this.score = score;
 	}
 
+	public int getCalculCompter() {
+		return score;
+	}
+
+	public void addCalculCompter() {
+		this.calculCompter ++;
+	}
+	public void resetCalculCompter() {
+		this.calculCompter=0;
+	}
 	public double getLasttimestamp() {
 		return lasttimestamp;
 	}
@@ -74,11 +87,16 @@ public class Chain {
 	public void addTimestamp( double timestamp) {
 		this.listoftimestamp.add(timestamp);
 		this.lasttimestamp=timestamp;
+		this.timestampsize+=1;
 	}
 
+	public int getTimestampsize() {
+		return this.timestampsize;
+	}
+	
 	public int caclulScore(double timestamp) {
 		int scoret = 0;
-		for (int i = this.listoftimestamp.size()-1; i >= 0; i--) {
+		for (int i = this.listoftimestamp.size()-1; i > this.listoftimestamp.size()-timestampsize; i--) {
 			if (timestamp - listoftimestamp.get(i) <= 604800) {
 				scoret +=10;
 			} else {
@@ -86,6 +104,7 @@ public class Chain {
 						&& timestamp - listoftimestamp.get(i) <= 1209600) {
 					scoret += 4;
 				} else {
+					this.timestampsize=(listoftimestamp.size()-i-1);
 					break;
 				}
 			}
