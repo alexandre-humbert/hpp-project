@@ -97,7 +97,7 @@ public class Reader implements Runnable {
 		try {
 			//w++;
 			queue.put(used_data);
-			System.out.println(Arrays.toString(used_data));
+			//System.out.println(Arrays.toString(used_data));
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -121,7 +121,7 @@ public class Reader implements Runnable {
 					//w++;
 					//System.out.println(w);
 					queue.put(used_data);
-					System.out.println(Arrays.toString(used_data));
+					//System.out.println(Arrays.toString(used_data));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				
@@ -130,14 +130,12 @@ public class Reader implements Runnable {
 		}
 		//System.out.println(w);
 		used_data = new String[4];
-		try {
-			
+		try {			
 			used_data[0] = "-1";
 			used_data[1] = "-1";
 			used_data[2] = "-1";			
 			used_data[3]="-1";
 			queue.put(used_data);
-			System.out.println(Arrays.toString(used_data));
 
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

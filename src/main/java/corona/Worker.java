@@ -17,6 +17,7 @@ public class Worker implements Runnable {
 
 	private static BlockingQueue<String[]> queue;
 	private static BlockingQueue<ArrayList<Chain>> queue2;
+	private static BlockingQueue<String> queuewriter;
 	private  ArrayList<Chain> chains;
 	private  static ArrayList<Chain> removeList;
 	private int score = 0;
@@ -49,9 +50,10 @@ public class Worker implements Runnable {
 		}
 	}
 
-	public Worker(BlockingQueue q,BlockingQueue q2, ArrayList<Chain> chains,ArrayList<Chain> removeList,Hashtable<Integer, Chain> idToChain) {
+	public Worker(BlockingQueue q,BlockingQueue q2, BlockingQueue q3,ArrayList<Chain> chains,ArrayList<Chain> removeList,Hashtable<Integer, Chain> idToChain) {
 		this.queue = q;
 		this.queue2 = q2;
+		this.queuewriter = q3;
 		this.chains = chains;
 		this.removeList=removeList;
 		this.idToChain=idToChain;
@@ -100,8 +102,7 @@ public class Worker implements Runnable {
 			for(int i = 0;i<chains.size();i++ ) {
 				Chain chain1=chains.get(i);
 						if (chain1.isOutofdate(lasttimestamp)) {	
-							removeList.add(chain1);
-							
+							removeList.add(chain1);							
 						} else {
 							if(scoreTop3<=chain1.getTimestampsize()*10) {
 								
@@ -113,6 +114,7 @@ public class Worker implements Runnable {
 							}
 					}
 			}
+			queuewriter.put(top.toString());
 			//System.out.println(top);	
 	}
 }
