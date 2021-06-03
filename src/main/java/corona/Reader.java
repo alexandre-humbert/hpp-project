@@ -13,7 +13,10 @@ import java.util.Scanner;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import org.apache.commons.io.FilenameUtils;
-
+/*
+ * La classe Reader va lire les csv les parser 
+ * puis les envoyer dans une queue vers un worker
+ */
 public class Reader implements Runnable {
 
 	private static double sizeLimit=300000;
@@ -52,7 +55,9 @@ public class Reader implements Runnable {
 			countries[i] = FilenameUtils.removeExtension(files[i].getName()); 
 		}
 	}
-
+/*
+ * Permet d'obtenir la prochaine ligne d'un fichier
+ */
 	public String[] getNextLine(int i) {
 		String line;
 		try {
@@ -85,7 +90,7 @@ public class Reader implements Runnable {
 		int min = 0;
 		for (int i = 0; i < nbfiles; i++) {
 			all_data[i] = getNextLine(i);
-			if (Double.parseDouble(all_data[i][4]) < minTimestamp) {
+			if (Double.parseDouble(all_data[i][4]) < minTimestamp) {//Determine le premier cas de la prochaine ligne des trois fichiers
 				minTimestamp = Double.parseDouble(all_data[i][4]);
 				min = i;
 			}
@@ -100,37 +105,33 @@ public class Reader implements Runnable {
 			e.printStackTrace();
 		}
 		all_data[min] = getNextLine(min);
-		while (notNull(all_data)) {
+		while (notNull(all_data)) {// Boucle temps que toute les données ne sont pas nulle
 			used_data = new String[4];
 			minTimestamp = Double.POSITIVE_INFINITY;
 
-			for (int i = 0; i < nbfiles; i++) {
+			for (int i = 0; i < nbfiles; i++) { 
 				if (all_data[i] != null && Double.parseDouble(all_data[i][4]) < minTimestamp) {
 					minTimestamp = Double.parseDouble(all_data[i][4]);
 					min = i;
 				}
 			}
 			
-			if(Double.parseDouble( all_data[min][0])>sizeLimit) {
+			if(Double.parseDouble( all_data[min][0])>sizeLimit) {// Limte de donnée à traiter
 				break;
 			}
 			used_data[0] = all_data[min][0];
 			used_data[1] = all_data[min][4];
 			used_data[2] = all_data[min][5].replace(" ", "");			
 			used_data[3] = countries[min];
-			 //System.out.println(used_data[0]+" "+used_data[2]);
 			try {
-					//w++;
-					//System.out.println(w);
+;
 					queue.put(used_data);
-					//System.out.println(Arrays.toString(used_data));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				
 			}
 			all_data[min] = getNextLine(min);
 		}
-		//System.out.println(w);
 		used_data = new String[4];
 		try {			
 			used_data[0] = "-1";

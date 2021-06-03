@@ -21,10 +21,7 @@ public class Example {
 			rd = new Reader("src\\test\\resources\\Example\\",queue);
 			Thread t1 =new Thread(rd);  
 			t1.start();  
-			ArrayList<Chain> chains = new  ArrayList<Chain>();
-			ArrayList<Chain> removeList= new  ArrayList<Chain>();
-			Hashtable<Integer, Chain> idToChain = new Hashtable<Integer, Chain>();
-			Worker worker = new Worker(queue,queuewriter,chains,removeList,idToChain);
+			Worker worker = new Worker(queue,queuewriter);
 			Thread t2 = new Thread(worker, "t2");
 			t2.start();
 

@@ -8,19 +8,16 @@ public class Chain {
 	private String rootCountry;
 	private double rootTimestamp;
 	private ArrayList<Integer> listofid;
-	private ArrayList<Double> listoftimestamp;
+	private ArrayList<Double> listoftimestamp;// liste de tous les timestamp de la liste
 	private int score;
-	private double lasttimestamp;
-	private int timestampsize;
-	private int calculCompter=0;
+	private double lasttimestamp;// dernier timestamp depuis sa mise à jour
+	private int timestampsize;// taille des timestamp encore actif
 
 	public Chain(int id, double timestamp, String country) {
 		super();
 		this.rootId = id;
 		this.rootCountry = country;
-		//this.listofid = new ArrayList<Integer>();
 		this.listoftimestamp = new ArrayList<Double>();
-		//this.listofid.add(id);
 		this.listoftimestamp.add(timestamp);
 		this.score = 10;
 		this.lasttimestamp = timestamp;
@@ -68,16 +65,6 @@ public class Chain {
 		this.score = score;
 	}
 
-	public int getCalculCompter() {
-		return score;
-	}
-
-	public void addCalculCompter() {
-		this.calculCompter ++;
-	}
-	public void resetCalculCompter() {
-		this.calculCompter=0;
-	}
 	public double getLasttimestamp() {
 		return lasttimestamp;
 	}
