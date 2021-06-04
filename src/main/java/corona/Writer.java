@@ -1,5 +1,6 @@
 package corona;
 
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
@@ -11,7 +12,7 @@ import static corona.Main_corona.BENCHMARK;
  */
 public class Writer implements Runnable {
 	private static BlockingQueue<String> queuewriter;
-	FileWriter write;
+	BufferedWriter  write;
 	private long op;
 	public void run() {
 		try {
@@ -24,6 +25,7 @@ public class Writer implements Runnable {
 					 if (BENCHMARK) {
 					  System.out.println("Writer : size : "+op+"; seconds : "+seconds+"; ms/op : "+(endTime - startTime)/(float)op+";");
 					 }
+					 write.flush();
 					 break;
 				}
 				System.out.println(data);
@@ -37,6 +39,6 @@ public class Writer implements Runnable {
 	}
 	public Writer(BlockingQueue<String> queuewriter) throws IOException {
 		this.queuewriter=queuewriter;
-		write= new FileWriter("Score.csv");
+		write= new BufferedWriter(new FileWriter("Score.csv"));
 	}
 }
