@@ -1,6 +1,7 @@
 package corona;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -10,7 +11,7 @@ public class Main_corona {
 
 	private static String size="5000";
 	
-	public static void main(String args[]) throws InterruptedException{ 
+	public static void main(String args[]) throws InterruptedException, IOException{ 
 		
 		BlockingQueue<String[]> queueworker= new ArrayBlockingQueue<String[]>(100);// Queue de reader à worker
 		BlockingQueue<String> queuewriter= new ArrayBlockingQueue<String>(100);// Queue de worker à writer

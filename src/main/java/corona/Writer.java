@@ -1,6 +1,7 @@
 package corona;
 
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 import static corona.Main_corona.DEBUG;
 import static corona.Main_corona.BENCHMARK;
@@ -30,11 +31,11 @@ public class Writer implements Runnable {
 				write.write(System.getProperty( "line.separator" ));
 				op++;
 			}
-		} catch (InterruptedException ex) {
+		} catch (InterruptedException | IOException ex) {
 				
 		}
 	}
-	public Writer(BlockingQueue<String> queuewriter) {
+	public Writer(BlockingQueue<String> queuewriter) throws IOException {
 		this.queuewriter=queuewriter;
 		write= new FileWriter("Score.csv");
 	}
