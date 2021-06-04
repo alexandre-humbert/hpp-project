@@ -1,14 +1,16 @@
 package corona;
 
+import java.io.FileWriter;
 import java.util.concurrent.BlockingQueue;
 import static corona.Main_corona.DEBUG;
 import static corona.Main_corona.BENCHMARK;
 /*
- * La classe Writer va simplement prendre le score en entrée puis l'afficher,
- * il serait possible de la modifier pour le mettre dans un fichier à la place 
+ * La classe Writer va simplement prendre le score en entrÃ©e puis l'afficher,
+ * il serait possible de la modifier pour le mettre dans un fichier Ã  la place 
  */
 public class Writer implements Runnable {
 	private static BlockingQueue<String> queuewriter;
+	FileWriter write;
 	private long op;
 	public void run() {
 		try {
@@ -24,6 +26,8 @@ public class Writer implements Runnable {
 					 break;
 				}
 				System.out.println(data);
+				write.append(data);
+				write.write(System.getProperty( "line.separator" ));
 				op++;
 			}
 		} catch (InterruptedException ex) {
@@ -32,5 +36,6 @@ public class Writer implements Runnable {
 	}
 	public Writer(BlockingQueue<String> queuewriter) {
 		this.queuewriter=queuewriter;
+		write= new FileWriter("Score.csv");
 	}
 }
