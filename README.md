@@ -72,7 +72,7 @@ Haddock est contaminé par une personne inconnue, il devient root_id de la premi
 ```
 size : 1000000; seconds : 1301; ms/op : 1.301659;\
 
-##### Résultat pour 1 000 000 de cas :
+##### Résultat pour 300 000 cas :
 ```
 [[Spain, root_id=564, score=2994][Italy, root_id=427, score=2978][Spain, root_id=508, score=2564]]
 ```
