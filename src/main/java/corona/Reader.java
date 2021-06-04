@@ -106,7 +106,7 @@ public class Reader implements Runnable {
 			e.printStackTrace();
 		}
 		all_data[min] = getNextLine(min);
-		while (notNull(all_data)) {// Boucle temps que toute les données ne sont pas nulle
+		while (notNull(all_data)) {// Boucle temps que toute les donnÃ©es ne sont pas nulle
 			used_data = new String[4];
 			minTimestamp = Double.POSITIVE_INFINITY;
 
@@ -117,7 +117,7 @@ public class Reader implements Runnable {
 				}
 			}
 			
-			if(Double.parseDouble( all_data[min][0])>sizeLimit) {// Limite de donnée à traiter
+			if(Double.parseDouble( all_data[min][0])>=sizeLimit) {// Limite de donnÃ©e Ã  traiter
 				break;
 			}
 			used_data[0] = all_data[min][0];
