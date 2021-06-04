@@ -11,7 +11,7 @@ More information : https://github.com/telecom-se/hpp/tree/2020-2021/project
   
 * Test de l'exemple :\
   Ce test exécute l'exemple du projet et vérifie que le résultat obtenu est correct.\
-  Cet exemple est détails sur le git du projet.
+  Cet exemple est détaillé sur le git du projet.
   
 * Test du cas où des scores sont identiques :\
   On véfifie que dans le cas où deux scores sont identiques, c'est la plus vieille chaine qui prime.\
