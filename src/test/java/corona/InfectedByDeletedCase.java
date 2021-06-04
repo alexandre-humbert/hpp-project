@@ -40,7 +40,7 @@ public class InfectedByDeletedCase {
 				value = queuewriter.take();
 				System.out.println("Got      : " + value);
 				if (line.equals(value) != true) {
-					//fail("Does not match");
+					fail("Does not match");
 				}
 			}
 		} catch (FileNotFoundException e) {
